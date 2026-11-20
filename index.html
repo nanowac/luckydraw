@@ -60,7 +60,6 @@ th,td{border-color:#453456}th{color:#f5d7a1}
 .terms{margin-top:24px;color:#d0bfdc;font-size:.78rem;line-height:1.6}
 .prize-window{container-type:inline-size}.prize-group{min-width:100cqw}.prize-card{flex:1 0 auto}
 </style>
-<script>window.ticketPool = {"demo":true,"updatedAt":null,"accounts":[{"masked":"naXXX88","tickets":1},{"masked":"miXXX42","tickets":1},{"masked":"soXXX19","tickets":1}]};</script>
 </head>
 <body>
 <main>
@@ -70,7 +69,6 @@ th,td{border-color:#453456}th{color:#f5d7a1}
 <div class="brand">LUCKY LIVE</div>
 <h1>Ticket Pool</h1>
 <p>ตรวจสอบจำนวนสิทธิ์ของสมาชิกในรอบกิจกรรม</p>
-<div id="demo" hidden>ข้อมูลตัวอย่าง</div>
 <p id="updated"></p>
 <a class="hero-link" href="#search">ค้นหาสิทธิ์ของคุณ <span aria-hidden="true">↓</span></a>
 </div>
@@ -100,7 +98,7 @@ th,td{border-color:#453456}th{color:#f5d7a1}
 <footer class="terms">บริษัทขอสงวนสิทธิ์ในการเปลี่ยนแปลงของรางวัลโดยไม่ต้องแจ้งให้ทราบล่วงหน้า</footer>
 </main>
 <script>
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', async () => {
   const byId = id => document.getElementById(id);
   const prizeToggle = byId('prize-toggle');
   const prizeWindow = byId('prize-window');
@@ -109,17 +107,39 @@ window.addEventListener('DOMContentLoaded', () => {
     if (!paused) prizeWindow.scrollLeft = 0;
     prizeToggle.textContent = paused ? 'เล่นต่อ' : 'หยุดเลื่อน';
   });
-  const data = window.ticketPool;
-  if (!data) {
+  // Set this to the /exec URL of the survey-bound Apps Script deployment.
+  const poolEndpoint = '';
+  let data;
+  byId('search').disabled = true;
+  byId('status').textContent = 'กำลังโหลดข้อมูล Pool…';
+  try {
+    if (!poolEndpoint) throw new Error('Pool endpoint is not configured');
+    data = await new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      const finish = (error, payload) => {
+        clearTimeout(timer);
+        script.remove();
+        delete window.receiveSurveyPool;
+        if (error) reject(error);
+        else resolve(payload);
+      };
+      const failed = () => finish(new Error('Pool request failed'));
+      const timer = setTimeout(failed, 15000);
+      window.receiveSurveyPool = payload => finish(null, payload);
+      script.onerror = failed;
+      script.src = poolEndpoint;
+      document.head.append(script);
+    });
+    if (!Array.isArray(data.accounts)) throw new Error('Invalid pool response');
+  } catch {
     byId('status').textContent = 'โหลดข้อมูล Pool ไม่สำเร็จ';
-    byId('search').disabled = true;
     return;
   }
+  byId('search').disabled = false;
   const number = new Intl.NumberFormat('th-TH');
   const accounts = data.accounts;
   const size = 15;
   let page = 0;
-  byId('demo').hidden = !data.demo;
   byId('updated').textContent = data.updatedAt ? 'อัปเดต ' + new Intl.DateTimeFormat('th-TH', {
     dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Bangkok'
   }).format(new Date(data.updatedAt)) + ' (เวลาไทย)' : '';
