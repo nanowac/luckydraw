@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lucky Live · Ticket Pool</title>
+<title>ตรวจสอบสิทธิ์ลุ้นรางวัล | จับฉลากฉลองลอยกระทง</title>
 <style>
 :root{color-scheme:dark;font-family:system-ui,sans-serif;background:#11100e;color:#f8f3e9}
 *{box-sizing:border-box}
@@ -63,28 +63,28 @@ th,td{border-color:#453456}th{color:#f5d7a1}
 </head>
 <body>
 <main>
-<a href="https://lucky-live-nano-1030.adisorn160.chatgpt.site/">← กลับไปหน้า Lucky Live</a>
+<a href="https://lucky-live-nano-1030.adisorn160.chatgpt.site/">← กลับไปหน้ากิจกรรมจับฉลาก</a>
 <header>
 <div>
-<div class="brand">LUCKY LIVE</div>
-<h1>Ticket Pool</h1>
-<p>ตรวจสอบจำนวนสิทธิ์ของสมาชิกในรอบกิจกรรม</p>
+<div class="brand">จับฉลากฉลองลอยกระทง</div>
+<h1>ตรวจสอบสิทธิ์ลุ้นรางวัล</h1>
+<p>ส่งแบบสอบถามเรียบร้อยแล้ว ค้นหาชื่อบัญชีของท่านเพื่อตรวจสอบสิทธิ์ลุ้นรางวัลได้ที่นี่</p>
 <p id="updated"></p>
-<a class="hero-link" href="#search">ค้นหาสิทธิ์ของคุณ <span aria-hidden="true">↓</span></a>
+<a class="hero-link" href="#search">ค้นหาชื่อบัญชีของท่าน <span aria-hidden="true">↓</span></a>
 </div>
 <figure class="hero-art">
 <span class="spark one" aria-hidden="true">✦</span><span class="spark two" aria-hidden="true">✦</span><span class="spark three" aria-hidden="true">✧</span>
 <img src="https://lucky-live-nano-1030.adisorn160.chatgpt.site/prizes/s26.png" alt="" width="230" height="230">
-<figcaption>Samsung Galaxy S26</figcaption>
+<figcaption>รางวัลใหญ่ Samsung Galaxy S26</figcaption>
 </figure>
 </header>
 <section class="prizes" aria-labelledby="prize-title">
-<div class="prize-heading"><h2 id="prize-title">ของรางวัล Lucky Live</h2><button type="button" id="prize-toggle" aria-controls="prize-window">หยุดเลื่อน</button></div>
+<div class="prize-heading"><h2 id="prize-title">ของรางวัลกิจกรรมจับฉลาก</h2><button type="button" id="prize-toggle" aria-controls="prize-window">หยุดเลื่อน</button></div>
 <div class="prize-window" id="prize-window" tabindex="0" aria-label="เลื่อนดูรูปของรางวัล"><div class="prize-track"><div class="prize-group"><figure class="prize-card"><img src="https://lucky-live-nano-1030.adisorn160.chatgpt.site/prizes/s26.png" alt="" width="128" height="96"><figcaption>Samsung Galaxy S26</figcaption></figure><figure class="prize-card"><img src="https://lucky-live-nano-1030.adisorn160.chatgpt.site/prizes/watch8.webp" alt="" width="128" height="96"><figcaption>Samsung Galaxy Watch 8 40mm</figcaption></figure><figure class="prize-card"><img src="https://lucky-live-nano-1030.adisorn160.chatgpt.site/prizes/buds3.webp" alt="" width="128" height="96"><figcaption>Samsung Galaxy Buds 3 FE</figcaption></figure><figure class="prize-card"><img src="https://lucky-live-nano-1030.adisorn160.chatgpt.site/prizes/trip.svg" alt="" width="128" height="96"><figcaption>Trip.com Voucher · 1,000 บาท<br><small>Hotels, Flights &amp; More</small></figcaption></figure><figure class="prize-card"><img src="https://lucky-live-nano-1030.adisorn160.chatgpt.site/prizes/trip.svg" alt="" width="128" height="96"><figcaption>Trip.com Voucher · 500 บาท<br><small>Hotels, Flights &amp; More</small></figcaption></figure></div><div class="prize-group" aria-hidden="true"><figure class="prize-card"><img src="https://lucky-live-nano-1030.adisorn160.chatgpt.site/prizes/s26.png" alt="" width="128" height="96"><figcaption>Samsung Galaxy S26</figcaption></figure><figure class="prize-card"><img src="https://lucky-live-nano-1030.adisorn160.chatgpt.site/prizes/watch8.webp" alt="" width="128" height="96"><figcaption>Samsung Galaxy Watch 8 40mm</figcaption></figure><figure class="prize-card"><img src="https://lucky-live-nano-1030.adisorn160.chatgpt.site/prizes/buds3.webp" alt="" width="128" height="96"><figcaption>Samsung Galaxy Buds 3 FE</figcaption></figure><figure class="prize-card"><img src="https://lucky-live-nano-1030.adisorn160.chatgpt.site/prizes/trip.svg" alt="" width="128" height="96"><figcaption>Trip.com Voucher · 1,000 บาท<br><small>Hotels, Flights &amp; More</small></figcaption></figure><figure class="prize-card"><img src="https://lucky-live-nano-1030.adisorn160.chatgpt.site/prizes/trip.svg" alt="" width="128" height="96"><figcaption>Trip.com Voucher · 500 บาท<br><small>Hotels, Flights &amp; More</small></figcaption></figure></div></div></div>
 </section>
-<section class="stats" aria-label="สรุป Pool">
-<div>สิทธิ์ทั้งหมด<strong id="total">—</strong></div>
-<div>บัญชีใน Pool<strong id="members">—</strong></div>
+<section class="stats" aria-label="สรุปสิทธิ์ลุ้นรางวัล">
+<div>สิทธิ์ลุ้นรางวัลทั้งหมด<strong id="total">—</strong></div>
+<div>บัญชีที่ได้รับสิทธิ์<strong id="members">—</strong></div>
 </section>
 <section class="panel" aria-label="รายชื่อบัญชี">
 <label for="search">ค้นหาบัญชี</label>
@@ -111,7 +111,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   const poolEndpoint = 'https://script.google.com/macros/s/AKfycbzshkfr1IuHk2-gYi5KFJYtNx7av1q5LI1ZWpiTi0aC65Q9oQTY9YYvTD6QVRRva9HN/exec';
   let data;
   byId('search').disabled = true;
-  byId('status').textContent = 'กำลังโหลดข้อมูล Pool…';
+  byId('status').textContent = 'กำลังโหลดข้อมูลสิทธิ์ลุ้นรางวัล…';
   try {
     if (!poolEndpoint) throw new Error('Pool endpoint is not configured');
     data = await new Promise((resolve, reject) => {
@@ -132,7 +132,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     });
     if (!Array.isArray(data.accounts)) throw new Error('Invalid pool response');
   } catch {
-    byId('status').textContent = 'โหลดข้อมูล Pool ไม่สำเร็จ';
+    byId('status').textContent = 'โหลดข้อมูลสิทธิ์ลุ้นรางวัลไม่สำเร็จ';
     return;
   }
   byId('search').disabled = false;
@@ -150,7 +150,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     const matches = accounts.filter(row => row.masked.toLowerCase().includes(query));
     const pages = Math.ceil(matches.length / size);
     byId('status').textContent = matches.length ? 'พบ ' + number.format(matches.length) + ' บัญชี'
-      : query ? 'ไม่พบบัญชีที่ตรงกับคำค้น' : 'ยังไม่มีสิทธิ์ใน Pool';
+      : query ? 'ไม่พบบัญชีที่ตรงกับคำค้น' : 'ยังไม่มีบัญชีที่ได้รับสิทธิ์ลุ้นรางวัล';
     const rows = matches.slice(page * size, (page + 1) * size).map(account => {
       const tr = document.createElement('tr');
       tr.insertCell().textContent = account.masked;
