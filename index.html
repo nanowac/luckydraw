@@ -64,6 +64,15 @@ th,td{border-color:#453456}th{color:#f5d7a1}
 .pool-countdown time{font-size:.84rem}
 .pool-countdown strong{margin-top:3px;color:#ffda77;font-size:clamp(18px,4vw,25px);font-variant-numeric:tabular-nums}
 </style>
+<script>
+const liveDrawStartsAt = Date.parse('2026-11-24T15:00:00+07:00');
+function goToLiveDrawIfOpen() {
+  if (Date.now() < liveDrawStartsAt) return false;
+  window.location.replace('/luckydraw/live/');
+  return true;
+}
+goToLiveDrawIfOpen();
+</script>
 </head>
 <body>
 <main>
@@ -178,14 +187,11 @@ window.addEventListener('DOMContentLoaded', async () => {
 </script>
 <script>
 (() => {
-  const start = Date.parse(document.querySelector('#pool-countdown time').dateTime);
+  const start = liveDrawStartsAt;
   const output = document.getElementById('pool-remaining');
   function tick() {
-    const minutes = Math.max(0, Math.ceil((start - Date.now()) / 60000));
-    if (!minutes) {
-      output.textContent = 'ถึงเวลาจับฉลากแล้ว';
-      return;
-    }
+    if (goToLiveDrawIfOpen()) return;
+    const minutes = Math.ceil((start - Date.now()) / 60000);
     output.textContent = 'อีก ' + Math.floor(minutes / 1440) + ' วัน ' +
       (Math.floor(minutes / 60) % 24) + ' ชั่วโมง ' + (minutes % 60) + ' นาที';
     setTimeout(tick, 1000);
