@@ -22,7 +22,7 @@ input{width:100%;background:#15130f;color:inherit}button{background:#332817;colo
 button:disabled{opacity:.5;cursor:default}
 :focus-visible{outline:2px solid #f3cb79;outline-offset:3px}
 table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:12px 4px;border-bottom:1px solid #473a29}
-th:last-child,td:last-child{text-align:right}
+
 nav{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:16px}
 #demo{color:#f3cb79;font-weight:700}
 .prizes{margin:0 0 20px}.prize-heading{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}.prize-heading h2{margin:0;font-size:1.25rem}.prize-window{overflow:auto;border-radius:12px;scrollbar-width:thin}.prize-track{display:flex;width:max-content;animation:prize-scroll 26s linear infinite}.prize-group{display:flex;gap:12px;padding-right:12px}.prize-card{width:160px;margin:0;padding:10px;background:#1c1914;border:1px solid #4f402a;border-radius:12px;text-align:center}.prize-card img{display:block;width:100%;height:96px;object-fit:contain;background:#f8f3e9;border-radius:8px;padding:5px}.prize-card figcaption{font-size:.85rem;margin-top:8px}.prize-window:hover .prize-track,.prize-window:focus-within .prize-track,.prize-window[data-paused] .prize-track{animation-play-state:paused}.prize-window[data-paused] .prize-group[aria-hidden]{display:none}.prize-window[data-paused] .prize-track{animation:none}
@@ -57,8 +57,9 @@ header p{margin:0 0 16px;color:#e8def1}#updated:empty{display:none}
 th,td{border-color:#453456}th{color:#f5d7a1}
 @media(max-width:580px){main{padding:20px 14px 38px}header{grid-template-columns:1fr;gap:0;border-radius:20px}.hero-art{min-height:158px}.hero-art img{width:150px;height:150px}.hero-art::before,.hero-art::after{width:205px}.hero-art figcaption{margin-top:4px}.prize-card{width:145px}.prize-card img{height:94px}}
 @media(prefers-reduced-motion:reduce){.hero-art img,.spark{animation:none}}
+.terms{margin-top:24px;color:#d0bfdc;font-size:.78rem;line-height:1.6}
 </style>
-<script>window.ticketPool = {"demo":true,"updatedAt":null,"accounts":[{"masked":"naXXX88","tickets":3},{"masked":"miXXX42","tickets":5},{"masked":"soXXX19","tickets":2}]};</script>
+<script>window.ticketPool = {"demo":true,"updatedAt":null,"accounts":[{"masked":"naXXX88","tickets":1},{"masked":"miXXX42","tickets":1},{"masked":"soXXX19","tickets":1}]};</script>
 </head>
 <body>
 <main>
@@ -90,11 +91,12 @@ th,td{border-color:#453456}th{color:#f5d7a1}
 <label for="search">ค้นหาบัญชี</label>
 <input id="search" type="search" autocomplete="off" placeholder="เช่น naXXX88 หรือ 88">
 <p id="status" role="status"></p>
-<table><thead><tr><th scope="col">ชื่อบัญชี</th><th scope="col">จำนวนสิทธิ์</th></tr></thead><tbody id="rows"></tbody></table>
+<table><thead><tr><th scope="col">ชื่อบัญชี</th></tr></thead><tbody id="rows"></tbody></table>
 <nav id="pagination" hidden aria-label="เปลี่ยนหน้า">
 <button id="prev" type="button">ก่อนหน้า</button><span id="page"></span><button id="next" type="button">ถัดไป</button>
 </nav>
 </section>
+<footer class="terms">บริษัทขอสงวนสิทธิ์ในการเปลี่ยนแปลงของรางวัลโดยไม่ต้องแจ้งให้ทราบล่วงหน้า</footer>
 </main>
 <script>
 window.addEventListener('DOMContentLoaded', () => {
@@ -131,7 +133,6 @@ window.addEventListener('DOMContentLoaded', () => {
     const rows = matches.slice(page * size, (page + 1) * size).map(account => {
       const tr = document.createElement('tr');
       tr.insertCell().textContent = account.masked;
-      tr.insertCell().textContent = number.format(account.tickets);
       return tr;
     });
     byId('rows').replaceChildren(...rows);
