@@ -6,10 +6,31 @@
 <title>ชมจับฉลากสด · Lucky Live</title>
 <style>
 html,body{height:100%;margin:0;background:#11100e}
-iframe{display:block;width:100%;height:100%;border:0}
+body{display:flex;flex-direction:column}
+iframe{display:block;flex:1;min-height:0;width:100%;border:0}
+.event-clock{display:flex;align-items:center;justify-content:center;gap:8px 18px;padding:9px 12px;background:#252015;border-bottom:1px solid #6b562a;color:#fff0ce;font:600 14px system-ui,sans-serif;text-align:center;flex-wrap:wrap}
+.event-clock[hidden]{display:none}
+.event-clock strong{color:#ffda77;font-size:clamp(18px,2.3vw,28px);font-variant-numeric:tabular-nums}
+@media(max-width:520px){.event-clock{gap:3px 10px;font-size:12px;padding:6px 10px}}
 </style>
 </head>
 <body>
+<header class="event-clock" id="event-clock" hidden><span>จับฉลากสด · 24 พ.ย. 2569 · 15:00 น. เวลาไทย</span><strong id="remaining" aria-label="เวลาที่เหลือ"></strong></header>
 <iframe title="ชมการจับฉลากสด" src="https://lucky-live.adisorn-wac.workers.dev/?room=d8fff79d-5388-4447-aa4c-9eccb42f332b&amp;view=1&amp;present=1" allow="autoplay; fullscreen" allowfullscreen></iframe>
+<script>
+const startsAt = Date.parse('2026-11-24T15:00:00+07:00');
+const clock = document.getElementById('event-clock');
+const remaining = document.getElementById('remaining');
+function updateClock() {
+  const seconds = Math.max(0, Math.ceil((startsAt - Date.now()) / 1000));
+  clock.hidden = seconds === 0;
+  if (!seconds) return;
+  const pad = number => String(number).padStart(2, '0');
+  remaining.textContent = Math.floor(seconds / 86400) + ' วัน ' +
+    pad(Math.floor(seconds / 3600) % 24) + ':' + pad(Math.floor(seconds / 60) % 60) + ':' + pad(seconds % 60);
+  setTimeout(updateClock, 1000);
+}
+updateClock();
+</script>
 </body>
 </html>
