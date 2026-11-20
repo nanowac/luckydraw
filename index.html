@@ -25,6 +25,9 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:12px 4px
 th:last-child,td:last-child{text-align:right}
 nav{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:16px}
 #demo{color:#f3cb79;font-weight:700}
+.prizes{margin:0 0 20px}.prize-heading{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}.prize-heading h2{margin:0;font-size:1.25rem}.prize-window{overflow:auto;border-radius:12px;scrollbar-width:thin}.prize-track{display:flex;width:max-content;animation:prize-scroll 26s linear infinite}.prize-group{display:flex;gap:12px;padding-right:12px}.prize-card{width:160px;margin:0;padding:10px;background:#1c1914;border:1px solid #4f402a;border-radius:12px;text-align:center}.prize-card img{display:block;width:100%;height:96px;object-fit:contain;background:#f8f3e9;border-radius:8px;padding:5px}.prize-card figcaption{font-size:.85rem;margin-top:8px}.prize-window:hover .prize-track,.prize-window:focus-within .prize-track,.prize-window[data-paused] .prize-track{animation-play-state:paused}.prize-window[data-paused] .prize-group[aria-hidden]{display:none}.prize-window[data-paused] .prize-track{animation:none}
+@keyframes prize-scroll{to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.prize-track{animation:none}.prize-group[aria-hidden],#prize-toggle{display:none}}
 </style>
 <script>window.ticketPool = {"demo":true,"updatedAt":null,"accounts":[{"masked":"naXXX88","tickets":3},{"masked":"miXXX42","tickets":5},{"masked":"soXXX19","tickets":2}]};</script>
 </head>
@@ -38,6 +41,10 @@ nav{display:flex;justify-content:space-between;align-items:center;gap:8px;margin
 <div id="demo" hidden>ข้อมูลตัวอย่าง</div>
 <p id="updated"></p>
 </header>
+<section class="prizes" aria-labelledby="prize-title">
+<div class="prize-heading"><h2 id="prize-title">ของรางวัล Lucky Live</h2><button type="button" id="prize-toggle" aria-controls="prize-window">หยุดเลื่อน</button></div>
+<div class="prize-window" id="prize-window" tabindex="0" aria-label="เลื่อนดูรูปของรางวัล"><div class="prize-track"><div class="prize-group"><figure class="prize-card"><img src="https://lucky-live-nano-1030.adisorn160.chatgpt.site/prizes/s26.png" alt="" width="128" height="96"><figcaption>Samsung Galaxy S26</figcaption></figure><figure class="prize-card"><img src="https://lucky-live-nano-1030.adisorn160.chatgpt.site/prizes/watch8.webp" alt="" width="128" height="96"><figcaption>Samsung Galaxy Watch 8 40mm</figcaption></figure><figure class="prize-card"><img src="https://lucky-live-nano-1030.adisorn160.chatgpt.site/prizes/buds3.webp" alt="" width="128" height="96"><figcaption>Samsung Galaxy Buds 3 FE</figcaption></figure><figure class="prize-card"><img src="https://lucky-live-nano-1030.adisorn160.chatgpt.site/prizes/trip.svg" alt="" width="128" height="96"><figcaption>Trip.com Voucher</figcaption></figure><figure class="prize-card"><img src="https://lucky-live-nano-1030.adisorn160.chatgpt.site/prizes/line.svg" alt="" width="128" height="96"><figcaption>LINE Gift</figcaption></figure></div><div class="prize-group" aria-hidden="true"><figure class="prize-card"><img src="https://lucky-live-nano-1030.adisorn160.chatgpt.site/prizes/s26.png" alt="" width="128" height="96"><figcaption>Samsung Galaxy S26</figcaption></figure><figure class="prize-card"><img src="https://lucky-live-nano-1030.adisorn160.chatgpt.site/prizes/watch8.webp" alt="" width="128" height="96"><figcaption>Samsung Galaxy Watch 8 40mm</figcaption></figure><figure class="prize-card"><img src="https://lucky-live-nano-1030.adisorn160.chatgpt.site/prizes/buds3.webp" alt="" width="128" height="96"><figcaption>Samsung Galaxy Buds 3 FE</figcaption></figure><figure class="prize-card"><img src="https://lucky-live-nano-1030.adisorn160.chatgpt.site/prizes/trip.svg" alt="" width="128" height="96"><figcaption>Trip.com Voucher</figcaption></figure><figure class="prize-card"><img src="https://lucky-live-nano-1030.adisorn160.chatgpt.site/prizes/line.svg" alt="" width="128" height="96"><figcaption>LINE Gift</figcaption></figure></div></div></div>
+</section>
 <section class="stats" aria-label="สรุป Pool">
 <div>สิทธิ์ทั้งหมด<strong id="total">—</strong></div>
 <div>บัญชีใน Pool<strong id="members">—</strong></div>
@@ -55,6 +62,13 @@ nav{display:flex;justify-content:space-between;align-items:center;gap:8px;margin
 <script>
 window.addEventListener('DOMContentLoaded', () => {
   const byId = id => document.getElementById(id);
+  const prizeToggle = byId('prize-toggle');
+  const prizeWindow = byId('prize-window');
+  prizeToggle.addEventListener('click', () => {
+    const paused = prizeWindow.toggleAttribute('data-paused');
+    if (!paused) prizeWindow.scrollLeft = 0;
+    prizeToggle.textContent = paused ? 'เล่นต่อ' : 'หยุดเลื่อน';
+  });
   const data = window.ticketPool;
   if (!data) {
     byId('status').textContent = 'โหลดข้อมูล Pool ไม่สำเร็จ';
