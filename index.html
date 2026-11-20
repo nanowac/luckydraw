@@ -63,17 +63,12 @@ th,td{border-color:#453456}th{color:#f5d7a1}
 .pool-countdown time,.pool-countdown strong{display:block}
 .pool-countdown time{font-size:.84rem}
 .pool-countdown strong{margin-top:3px;color:#ffda77;font-size:clamp(18px,4vw,25px);font-variant-numeric:tabular-nums}
+.live-draw-dialog{width:min(440px,calc(100% - 32px));box-sizing:border-box;padding:26px 20px;border:1px solid #9a7437;border-radius:20px;background:#251b2d;color:#fff1d8;text-align:center}
+.live-draw-dialog::backdrop{background:#080610ba}
+.live-draw-dialog h2{margin:0 0 8px;color:#ffda8a}
+.live-draw-dialog form{margin-top:12px}
+.pool-live-link:not([hidden]){display:inline-flex;margin-top:8px}
 </style>
-<script>
-const liveDrawStartsAt = Date.parse('2026-11-24T15:00:00+07:00');
-function goToLiveDrawIfOpen() {
-  const preview = new URLSearchParams(window.location.search).get('preview-live') === '1';
-  if (!preview && Date.now() < liveDrawStartsAt) return false;
-  window.location.replace('/luckydraw/live/');
-  return true;
-}
-goToLiveDrawIfOpen();
-</script>
 </head>
 <body>
 <main>
@@ -85,6 +80,7 @@ goToLiveDrawIfOpen();
 <div class="pool-countdown" id="pool-countdown">
 <time datetime="2026-11-24T15:00:00+07:00">จับฉลากสด 24 พ.ย. 2569 เวลา 15:00 น. ตามเวลาไทย</time>
 <strong id="pool-remaining"></strong>
+<a class="hero-link pool-live-link" id="pool-live-link" href="/luckydraw/live/" hidden>ชมการออกรางวัลสด</a>
 </div>
 <p id="updated"></p>
 <a class="hero-link" href="#search">ค้นหาชื่อบัญชีของท่าน <span aria-hidden="true">↓</span></a>
@@ -186,12 +182,25 @@ window.addEventListener('DOMContentLoaded', async () => {
   render();
 });
 </script>
+<dialog class="live-draw-dialog" id="live-draw-dialog" aria-labelledby="live-draw-title">
+  <h2 id="live-draw-title">ถึงเวลาจับฉลากแล้ว!</h2>
+  <p>กดปุ่มด้านล่างเพื่อไปหน้าชมการออกรางวัลสด</p>
+  <a class="hero-link" href="/luckydraw/live/" autofocus>ชมการออกรางวัลสด</a>
+  <form method="dialog"><button type="submit">ปิด</button></form>
+</dialog>
 <script>
 (() => {
-  const start = liveDrawStartsAt;
+  const start = Date.parse('2026-11-24T15:00:00+07:00');
+  const preview = new URLSearchParams(window.location.search).get('preview-live') === '1';
   const output = document.getElementById('pool-remaining');
   function tick() {
-    if (goToLiveDrawIfOpen()) return;
+    if (preview || Date.now() >= start) {
+      output.textContent = 'ถึงเวลาจับฉลากแล้ว';
+      document.getElementById('pool-live-link').hidden = false;
+      const dialog = document.getElementById('live-draw-dialog');
+      if (typeof dialog.showModal === 'function') dialog.showModal();
+      return;
+    }
     const minutes = Math.ceil((start - Date.now()) / 60000);
     output.textContent = 'อีก ' + Math.floor(minutes / 1440) + ' วัน ' +
       (Math.floor(minutes / 60) % 24) + ' ชั่วโมง ' + (minutes % 60) + ' นาที';
