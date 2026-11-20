@@ -67,7 +67,8 @@ th,td{border-color:#453456}th{color:#f5d7a1}
 <script>
 const liveDrawStartsAt = Date.parse('2026-11-24T15:00:00+07:00');
 function goToLiveDrawIfOpen() {
-  if (Date.now() < liveDrawStartsAt) return false;
+  const preview = new URLSearchParams(window.location.search).get('preview-live') === '1';
+  if (!preview && Date.now() < liveDrawStartsAt) return false;
   window.location.replace('/luckydraw/live/');
   return true;
 }
