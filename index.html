@@ -198,3 +198,103 @@ window.addEventListener('DOMContentLoaded', () => {
 </script>
 </body>
 </html>
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lucky Live · Ticket Pool</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,sans-serif;background:#11100e;color:#f8f3e9}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at top,#372815 0,transparent 500px)}
+main{max-width:880px;margin:auto;padding:48px 20px}
+a{color:#f3cb79}
+header{padding:24px 0 32px}
+.brand{color:#f3cb79;letter-spacing:.18em;font-weight:700}
+h1{font-size:clamp(2rem,7vw,3.5rem);margin:.25em 0}p{color:#d1c7b7}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 20px}
+.stats div,.panel{background:#1c1914;border:1px solid #4f402a;border-radius:16px;padding:clamp(14px,4vw,26px)}
+.stats strong{display:block;font-size:clamp(1.6rem,6vw,2.6rem);color:#f3cb79}
+label{display:block;font-weight:700;margin-bottom:8px}
+input,button{font:inherit;border:1px solid #786044;border-radius:8px;padding:10px 12px}
+input{width:100%;background:#15130f;color:inherit}button{background:#332817;color:inherit;cursor:pointer}
+button:disabled{opacity:.5;cursor:default}
+:focus-visible{outline:2px solid #f3cb79;outline-offset:3px}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:12px 4px;border-bottom:1px solid #473a29}
+th:last-child,td:last-child{text-align:right}
+nav{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:16px}
+#demo{color:#f3cb79;font-weight:700}
+</style>
+<script>window.ticketPool = {"demo":true,"updatedAt":null,"accounts":[{"masked":"naXXX88","tickets":3},{"masked":"miXXX42","tickets":5},{"masked":"soXXX19","tickets":2}]};</script>
+</head>
+<body>
+<main>
+<a href="https://lucky-live-nano-1030.adisorn160.chatgpt.site/">← กลับไปหน้า Lucky Live</a>
+<header>
+<div class="brand">LUCKY LIVE</div>
+<h1>Ticket Pool</h1>
+<p>ตรวจสอบจำนวนสิทธิ์ของสมาชิกในรอบกิจกรรม</p>
+<div id="demo" hidden>ข้อมูลตัวอย่าง</div>
+<p id="updated"></p>
+</header>
+<section class="stats" aria-label="สรุป Pool">
+<div>สิทธิ์ทั้งหมด<strong id="total">—</strong></div>
+<div>บัญชีใน Pool<strong id="members">—</strong></div>
+</section>
+<section class="panel" aria-label="รายชื่อบัญชี">
+<label for="search">ค้นหาบัญชี</label>
+<input id="search" type="search" autocomplete="off" placeholder="เช่น naXXX88 หรือ 88">
+<p id="status" role="status"></p>
+<table><thead><tr><th scope="col">ชื่อบัญชี</th><th scope="col">จำนวนสิทธิ์</th></tr></thead><tbody id="rows"></tbody></table>
+<nav id="pagination" hidden aria-label="เปลี่ยนหน้า">
+<button id="prev" type="button">ก่อนหน้า</button><span id="page"></span><button id="next" type="button">ถัดไป</button>
+</nav>
+</section>
+</main>
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+  const byId = id => document.getElementById(id);
+  const data = window.ticketPool;
+  if (!data) {
+    byId('status').textContent = 'โหลดข้อมูล Pool ไม่สำเร็จ';
+    byId('search').disabled = true;
+    return;
+  }
+  const number = new Intl.NumberFormat('th-TH');
+  const accounts = data.accounts;
+  const size = 15;
+  let page = 0;
+  byId('demo').hidden = !data.demo;
+  byId('updated').textContent = data.updatedAt ? 'อัปเดต ' + new Intl.DateTimeFormat('th-TH', {
+    dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Bangkok'
+  }).format(new Date(data.updatedAt)) + ' (เวลาไทย)' : '';
+  byId('total').textContent = number.format(accounts.reduce((sum, row) => sum + row.tickets, 0));
+  byId('members').textContent = number.format(accounts.length);
+  function render() {
+    const query = byId('search').value.trim().toLowerCase();
+    const matches = accounts.filter(row => row.masked.toLowerCase().includes(query));
+    const pages = Math.ceil(matches.length / size);
+    byId('status').textContent = matches.length ? 'พบ ' + number.format(matches.length) + ' บัญชี'
+      : query ? 'ไม่พบบัญชีที่ตรงกับคำค้น' : 'ยังไม่มีสิทธิ์ใน Pool';
+    const rows = matches.slice(page * size, (page + 1) * size).map(account => {
+      const tr = document.createElement('tr');
+      tr.insertCell().textContent = account.masked;
+      tr.insertCell().textContent = number.format(account.tickets);
+      return tr;
+    });
+    byId('rows').replaceChildren(...rows);
+    byId('pagination').style.display = pages > 1 ? 'flex' : 'none';
+    byId('pagination').hidden = pages <= 1;
+    byId('page').textContent = 'หน้า ' + (page + 1) + ' / ' + pages;
+    byId('prev').disabled = page === 0;
+    byId('next').disabled = page + 1 >= pages;
+  }
+  byId('search').addEventListener('input', () => { page = 0; render(); });
+  byId('prev').addEventListener('click', () => { page--; render(); });
+  byId('next').addEventListener('click', () => { page++; render(); });
+  render();
+});
+</script>
+</body>
+</html>
