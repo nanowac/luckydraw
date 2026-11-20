@@ -101,7 +101,7 @@ th,td{border-color:#453456}th{color:#f5d7a1}
 </section>
 <section class="panel" aria-label="รายชื่อบัญชี">
 <label for="search">ค้นหาบัญชี</label>
-<input id="search" type="search" autocomplete="off" placeholder="เช่น naXXX88 หรือ 88">
+<input id="search" type="search" autocomplete="off" placeholder="พิมพ์ชื่อบัญชีเต็มหรือชื่อที่ปิดบางส่วน">
 <p id="status" role="status"></p>
 <table><thead><tr><th scope="col">ชื่อบัญชี</th></tr></thead><tbody id="rows"></tbody></table>
 <nav id="pagination" hidden aria-label="เปลี่ยนหน้า">
@@ -160,9 +160,20 @@ window.addEventListener('DOMContentLoaded', async () => {
   byId('members').textContent = number.format(accounts.length);
   function render() {
     const query = byId('search').value.trim().toLowerCase();
-    const matches = accounts.filter(row => row.masked.toLowerCase().includes(query));
+    let matches = accounts.filter(row => row.masked.toLowerCase().includes(query));
+    const checkMaskedForm = query && !matches.length;
+    if (checkMaskedForm) {
+      matches = accounts.filter(row => {
+        const mask = /^([^]*?)x{3,}([^]*)$/i.exec(row.masked.toLowerCase());
+        if (!mask) return false;
+        const [, prefix, suffix] = mask;
+        return Boolean(prefix || suffix) &&
+          query.length > prefix.length + suffix.length &&
+          query.startsWith(prefix) && query.endsWith(suffix);
+      });
+    }
     const pages = Math.ceil(matches.length / size);
-    byId('status').textContent = matches.length ? 'พบ ' + number.format(matches.length) + ' บัญชี'
+    byId('status').textContent = matches.length ? (checkMaskedForm ? 'พบชื่อแบบปิดบางส่วนที่ตรงกัน ' : 'พบ ') + number.format(matches.length) + ' บัญชี'
       : query ? 'ไม่พบบัญชีที่ตรงกับคำค้น' : 'ยังไม่มีบัญชีที่ได้รับสิทธิ์ลุ้นรางวัล';
     const rows = matches.slice(page * size, (page + 1) * size).map(account => {
       const tr = document.createElement('tr');
