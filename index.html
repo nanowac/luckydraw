@@ -28,6 +28,35 @@ nav{display:flex;justify-content:space-between;align-items:center;gap:8px;margin
 .prizes{margin:0 0 20px}.prize-heading{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}.prize-heading h2{margin:0;font-size:1.25rem}.prize-window{overflow:auto;border-radius:12px;scrollbar-width:thin}.prize-track{display:flex;width:max-content;animation:prize-scroll 26s linear infinite}.prize-group{display:flex;gap:12px;padding-right:12px}.prize-card{width:160px;margin:0;padding:10px;background:#1c1914;border:1px solid #4f402a;border-radius:12px;text-align:center}.prize-card img{display:block;width:100%;height:96px;object-fit:contain;background:#f8f3e9;border-radius:8px;padding:5px}.prize-card figcaption{font-size:.85rem;margin-top:8px}.prize-window:hover .prize-track,.prize-window:focus-within .prize-track,.prize-window[data-paused] .prize-track{animation-play-state:paused}.prize-window[data-paused] .prize-group[aria-hidden]{display:none}.prize-window[data-paused] .prize-track{animation:none}
 @keyframes prize-scroll{to{transform:translateX(-50%)}}
 @media(prefers-reduced-motion:reduce){.prize-track{animation:none}.prize-group[aria-hidden],#prize-toggle{display:none}}
+
+:root{background:#0b0917;color:#fff9f0}
+body{background:radial-gradient(ellipse at 22% 0%,#271542 0%,transparent 650px),#0b0917}
+main{max-width:1080px;padding:30px 24px 56px}
+main>a{display:inline-block;margin-bottom:18px;color:#e9d7fa;text-decoration:none;font-size:.9rem}
+main>a:hover{text-decoration:underline}
+header{position:relative;isolation:isolate;overflow:hidden;display:grid;grid-template-columns:1.12fr .88fr;align-items:center;gap:20px;padding:clamp(24px,5vw,56px);margin-bottom:30px;border:1px solid #6b477c;border-radius:28px;background:radial-gradient(ellipse at 79% 42%,#744293 0%,transparent 51%),linear-gradient(120deg,#291443,#140d27 55%,#281442);box-shadow:0 22px 75px #05020b80}
+.brand{color:#ffce77;letter-spacing:.24em;font-size:.85rem}
+h1{font-size:clamp(2.6rem,7vw,5.1rem);line-height:.99;letter-spacing:-.06em;margin:14px 0 12px;color:#ffdb97}
+header p{margin:0 0 16px;color:#e8def1}#updated:empty{display:none}
+#demo{font-size:.83rem;margin:0 0 15px}
+.hero-link{display:inline-flex;align-items:center;gap:.65em;background:#ffcf77;color:#24132f;border-radius:999px;padding:11px 17px;text-decoration:none;font-weight:750;box-shadow:0 5px 24px #e3923a38}
+.hero-art{position:relative;display:grid;place-items:center;min-height:255px;margin:0;isolation:isolate}
+.hero-art::before,.hero-art::after{content:"";position:absolute;border:1px solid #fce1a568;border-radius:50%;width:clamp(180px,28vw,300px);aspect-ratio:1;z-index:-1;transform:rotate(-22deg) scaleY(.7)}
+.hero-art::after{transform:rotate(25deg) scaleY(.7);border-color:#eebeff65}
+.hero-art img{display:block;width:clamp(140px,22vw,230px);height:clamp(140px,22vw,230px);object-fit:contain;filter:drop-shadow(0 13px 23px #1b0c29bc);animation:prize-float 5s ease-in-out infinite}
+.hero-art figcaption{font-size:.82rem;color:#ffedc7;font-weight:700;text-align:center}
+.spark{position:absolute;color:#ffda8a;font-size:1.7rem;filter:drop-shadow(0 0 10px #ffd783);animation:prize-float 4s ease-in-out infinite}
+.spark.one{top:13%;right:12%}.spark.two{top:62%;left:9%;font-size:1.15rem;animation-delay:-2s}.spark.three{top:15%;left:17%;font-size:.8rem}
+@keyframes prize-float{50%{transform:translateY(-8px)}}
+.prizes{margin-bottom:26px}.prize-heading{margin-bottom:13px}.prize-heading h2{color:#ffe2a8}
+.prize-card{width:184px;background:linear-gradient(150deg,#33214d,#191127);border-color:#63467a;padding:11px}
+.prize-card img{height:120px;background:radial-gradient(ellipse,#fff6e2,#e8d9ed);padding:8px}
+.prize-card figcaption{font-weight:650;color:#f6ecfa}.prize-window{border-radius:14px}
+.stats div,.panel{background:linear-gradient(145deg,#241737,#1a1329);border-color:#503963}
+.stats strong{color:#ffda8a}input{background:#140e22;border-color:#634a76}button{background:#2e1d43;border-color:#6b527e}
+th,td{border-color:#453456}th{color:#f5d7a1}
+@media(max-width:580px){main{padding:20px 14px 38px}header{grid-template-columns:1fr;gap:0;border-radius:20px}.hero-art{min-height:158px}.hero-art img{width:150px;height:150px}.hero-art::before,.hero-art::after{width:205px}.hero-art figcaption{margin-top:4px}.prize-card{width:145px}.prize-card img{height:94px}}
+@media(prefers-reduced-motion:reduce){.hero-art img,.spark{animation:none}}
 </style>
 <script>window.ticketPool = {"demo":true,"updatedAt":null,"accounts":[{"masked":"naXXX88","tickets":3},{"masked":"miXXX42","tickets":5},{"masked":"soXXX19","tickets":2}]};</script>
 </head>
@@ -35,11 +64,19 @@ nav{display:flex;justify-content:space-between;align-items:center;gap:8px;margin
 <main>
 <a href="https://lucky-live-nano-1030.adisorn160.chatgpt.site/">← กลับไปหน้า Lucky Live</a>
 <header>
+<div>
 <div class="brand">LUCKY LIVE</div>
 <h1>Ticket Pool</h1>
 <p>ตรวจสอบจำนวนสิทธิ์ของสมาชิกในรอบกิจกรรม</p>
 <div id="demo" hidden>ข้อมูลตัวอย่าง</div>
 <p id="updated"></p>
+<a class="hero-link" href="#search">ค้นหาสิทธิ์ของคุณ <span aria-hidden="true">↓</span></a>
+</div>
+<figure class="hero-art">
+<span class="spark one" aria-hidden="true">✦</span><span class="spark two" aria-hidden="true">✦</span><span class="spark three" aria-hidden="true">✧</span>
+<img src="https://lucky-live-nano-1030.adisorn160.chatgpt.site/prizes/s26.png" alt="" width="230" height="230">
+<figcaption>Samsung Galaxy S26</figcaption>
+</figure>
 </header>
 <section class="prizes" aria-labelledby="prize-title">
 <div class="prize-heading"><h2 id="prize-title">ของรางวัล Lucky Live</h2><button type="button" id="prize-toggle" aria-controls="prize-window">หยุดเลื่อน</button></div>
