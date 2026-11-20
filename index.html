@@ -59,16 +59,23 @@ th,td{border-color:#453456}th{color:#f5d7a1}
 @media(prefers-reduced-motion:reduce){.hero-art img,.spark{animation:none}}
 .terms{margin-top:24px;color:#d0bfdc;font-size:.78rem;line-height:1.6}
 .prize-window{container-type:inline-size}.prize-group{min-width:100cqw}.prize-card{flex:1 0 auto}
+.pool-countdown{margin:0 0 20px;padding:12px 15px;border:1px solid #6b562a;border-radius:12px;background:#252015;color:#fff0ce}
+.pool-countdown time,.pool-countdown strong{display:block}
+.pool-countdown time{font-size:.84rem}
+.pool-countdown strong{margin-top:3px;color:#ffda77;font-size:clamp(18px,4vw,25px);font-variant-numeric:tabular-nums}
 </style>
 </head>
 <body>
 <main>
-<a href="https://nanowac.github.io/luckydraw/live/">← กลับไปหน้ากิจกรรมจับฉลาก</a>
 <header>
 <div>
 <div class="brand">จับฉลากฉลองลอยกระทง</div>
 <h1>ตรวจสอบสิทธิ์ลุ้นรางวัล</h1>
 <p>ส่งแบบสอบถามเรียบร้อยแล้ว ค้นหาชื่อบัญชีของท่านเพื่อตรวจสอบสิทธิ์ลุ้นรางวัลได้ที่นี่</p>
+<div class="pool-countdown" id="pool-countdown">
+<time datetime="2026-11-24T15:00:00+07:00">จับฉลากสด 24 พ.ย. 2569 เวลา 15:00 น. ตามเวลาไทย</time>
+<strong id="pool-remaining"></strong>
+</div>
 <p id="updated"></p>
 <a class="hero-link" href="#search">ค้นหาชื่อบัญชีของท่าน <span aria-hidden="true">↓</span></a>
 </div>
@@ -168,6 +175,23 @@ window.addEventListener('DOMContentLoaded', async () => {
   byId('next').addEventListener('click', () => { page++; render(); });
   render();
 });
+</script>
+<script>
+(() => {
+  const start = Date.parse(document.querySelector('#pool-countdown time').dateTime);
+  const output = document.getElementById('pool-remaining');
+  function tick() {
+    const minutes = Math.max(0, Math.ceil((start - Date.now()) / 60000));
+    if (!minutes) {
+      output.textContent = 'ถึงเวลาจับฉลากแล้ว';
+      return;
+    }
+    output.textContent = 'อีก ' + Math.floor(minutes / 1440) + ' วัน ' +
+      (Math.floor(minutes / 60) % 24) + ' ชั่วโมง ' + (minutes % 60) + ' นาที';
+    setTimeout(tick, 1000);
+  }
+  tick();
+})();
 </script>
 </body>
 </html>
