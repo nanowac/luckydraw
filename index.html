@@ -67,6 +67,7 @@ th,td{border-color:#453456}th{color:#f5d7a1}
 .live-draw-dialog::backdrop{background:#080610ba}
 .live-draw-dialog h2{margin:0 0 8px;color:#ffda8a}
 .live-draw-dialog form{margin-top:12px}
+.pool-live-link[hidden]{display:none}
 .pool-live-link:not([hidden]){display:inline-flex;margin-top:8px}
 </style>
 </head>
@@ -205,9 +206,10 @@ window.addEventListener('DOMContentLoaded', async () => {
   const preview = new URLSearchParams(window.location.search).get('preview-live') === '1';
   const output = document.getElementById('pool-remaining');
   function tick() {
-    if (preview || Date.now() >= start) {
+    const now = Date.now();
+    document.getElementById('pool-live-link').hidden = !preview && now < start - 15 * 60000;
+    if (preview || now >= start) {
       output.textContent = 'ถึงเวลาจับฉลากแล้ว';
-      document.getElementById('pool-live-link').hidden = false;
       const dialog = document.getElementById('live-draw-dialog');
       if (typeof dialog.showModal === 'function') dialog.showModal();
       return;
