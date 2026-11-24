@@ -102,6 +102,7 @@ th,td{border-color:#453456}th{color:#f5d7a1}
 <section class="panel" aria-label="รายชื่อบัญชี">
 <label for="search">ค้นหาบัญชี</label>
 <input id="search" type="search" autocomplete="off" placeholder="พิมพ์ชื่อบัญชีเต็มหรือชื่อที่ปิดบางส่วน">
+<button id="shuffle" type="button" disabled style="margin-top:8px">สลับรายชื่อ</button>
 <p id="status" role="status"></p>
 <table><thead><tr><th scope="col">ชื่อบัญชี</th></tr></thead><tbody id="rows"></tbody></table>
 <nav id="pagination" hidden aria-label="เปลี่ยนหน้า">
@@ -149,7 +150,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     return;
   }
   byId('search').disabled = false;
-  const accounts = data.accounts;
+  const accounts = [...data.accounts];
   const size = 15;
   let page = 0;
   byId('updated').textContent = data.updatedAt ? 'อัปเดต ' + new Intl.DateTimeFormat('th-TH', {
@@ -184,6 +185,16 @@ window.addEventListener('DOMContentLoaded', async () => {
     byId('prev').disabled = page === 0;
     byId('next').disabled = page + 1 >= pages;
   }
+  const shuffle = byId('shuffle');
+  shuffle.disabled = accounts.length < 2;
+  shuffle.addEventListener('click', () => {
+    for (let index = accounts.length - 1; index > 0; index--) {
+      const other = Math.floor(Math.random() * (index + 1));
+      [accounts[index], accounts[other]] = [accounts[other], accounts[index]];
+    }
+    page = 0;
+    render();
+  });
   byId('search').addEventListener('input', () => { page = 0; render(); });
   byId('prev').addEventListener('click', () => { page--; render(); });
   byId('next').addEventListener('click', () => { page++; render(); });
