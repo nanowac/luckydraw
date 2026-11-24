@@ -149,7 +149,6 @@ window.addEventListener('DOMContentLoaded', async () => {
     return;
   }
   byId('search').disabled = false;
-  const number = new Intl.NumberFormat('th-TH');
   const accounts = data.accounts;
   const size = 15;
   let page = 0;
@@ -171,7 +170,7 @@ window.addEventListener('DOMContentLoaded', async () => {
       });
     }
     const pages = Math.ceil(matches.length / size);
-    byId('status').textContent = matches.length ? (checkMaskedForm ? 'พบชื่อแบบปิดบางส่วนที่ตรงกัน ' : 'พบ ') + number.format(matches.length) + ' บัญชี'
+    byId('status').textContent = matches.length ? (checkMaskedForm ? 'พบชื่อแบบปิดบางส่วนที่ตรงกัน' : 'พบบัญชี')
       : query ? 'ไม่พบบัญชีที่ตรงกับคำค้น' : 'ยังไม่มีบัญชีที่ได้รับสิทธิ์ลุ้นรางวัล';
     const rows = matches.slice(page * size, (page + 1) * size).map(account => {
       const tr = document.createElement('tr');
